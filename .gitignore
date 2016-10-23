@@ -1,0 +1,81 @@
+// UNIVERSIDAD TECNICA DEL NORTE
+// FICA CIERCOM
+//JOSUE MORA
+// SISTEMAS MICROPROCESADOS
+
+
+//declaracion del vector para almaenar los pines
+int vect[14] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13};
+int pausa = 200;//declaracion de variable para el tiempo
+void setup() {
+  // put your setup code here, to run once:
+  for (int pin = 0; pin <= 13; pin++) {
+
+    pinMode (vect[pin], OUTPUT); //declaracion de los 14 pin de salida
+  }
+}
+//metodo juego de luces que enciende los leds pares y luego los impares
+void juego1() {
+  int cont = 0;
+  for (int pin = 0; pin <= 13; pin++) {
+    digitalWrite(vect[cont], HIGH);//encendiendo los leds
+    cont = cont + 2;//incremento a la variable de dos en dos
+    delay(pausa);//
+    if (pin == 13) {//comparacion de la variable pin =13 verdadero
+      cont = 1;//inicializacion de la variable cont
+      for (int pin = 0; pin <= 13; pin++) {
+        digitalWrite(vect[cont], HIGH);//encendiendo los leds
+        cont = cont + 2;//incremento a la variable de dos en dos
+        delay(pausa);
+      }
+    }
+  }
+  for (int pin = 0; pin <= 13; pin++) {
+    digitalWrite(vect[pin], LOW);//apagando los leds
+    delay(pausa);
+  }
+}
+
+//metodo juego de luces que se encienden y se apagan en un ciclo
+void juego2() {
+  int cont = 0;//variable tipo entero inicializada en cero
+  while (cont < 10) {//ciclo para que se repita la instruccion hasta que la condicion sea verdadera
+    for (int pin = 0; pin <= 13; pin++) {
+      digitalWrite(vect[pin], HIGH);//encendiendo los leds
+    }
+    delay(pausa);
+    for (int pin = 0; pin <= 13; pin++) {
+      digitalWrite(vect[pin], LOW);//apagando los leds
+    }
+    delay(pausa);
+    cont++;//incremento en uno la variable cont
+  }
+
+}
+//metodo juego de luces encendiendo los lesd de manera simultanea 0,13--1,12 ,etc
+void juego3() {
+  int cont = 13;
+  for (int pin = 0; pin <= 13; pin++) {
+    digitalWrite(vect[pin], HIGH);//encendiendo los leds desde el pin 0
+    digitalWrite(vect[cont], HIGH);//encendiendo loa leds desde el 13
+    delay(pausa);
+    cont--;//decrementando en uno a la variable cont
+  }
+  cont = 7;//inicializacion de la variable 
+  delay(pausa);
+  for (int pin = 8; pin <= 16; pin++) {
+    digitalWrite(vect[pin], LOW);//apagando los leds
+    digitalWrite(vect[cont], LOW);//apagando los leds
+    delay(pausa);
+    cont--;//decrementando en uno a la variable cont
+  }
+  delay(pausa);
+}
+void loop() {
+  juego1();// llamado al metodo juego1
+  delay(100);
+  juego2();// llamado al metodo juego2
+  delay(100);
+  juego3();// llamado al metodo juego3
+  delay(pausa);
+}

@@ -1,0 +1,265 @@
+#include <Keypad.h>
+#include <LiquidCrystal.h>
+#include <TimerOne.h>
+LiquidCrystal lcd (13, 12, 11, 10, 9, 8);
+const byte ROWS = 4; //four rows
+const byte COLS = 3; //four columns
+//define the cymbols on the buttons of the keypads
+char hexaKeys[ROWS][COLS] = {
+  {'1', '2', '3'},
+  {'4', '5', '6'},
+  {'7', '8', '9'},
+  {'*', '0', '#'}
+};
+byte rowPins[ROWS] = {6, 5, 4, 3}; //connect to the row pinouts of the keypad
+byte colPins[COLS] = {9, 8, 7}; //connect to the column pinouts of the keypad
+
+//initialize an instance of class NewKeypad
+Keypad customKeypad = Keypad( makeKeymap(hexaKeys), rowPins, colPins, ROWS, COLS);
+int cont = 6;
+int pos = 0;
+int cont1 = 0;
+int cont2 = 3;
+int cont3 = 6;
+int cont4 = 9;
+int cont5 = 12;
+int cont6 = 15;
+int cont7 = 18;
+int cont8 = 21;
+char caracter;
+int num;
+
+void setup() {
+  // put your setup code here, to run once:
+Serial.begin(9600);
+  Timer1.initialize(150000);
+  Timer1.attachInterrupt(espera);
+}
+
+void loop() {
+  
+  char customKey = customKeypad.getKey();
+  if (customKey) 
+  {
+
+    if (customKey == '1') 
+    {
+      lcd.setCursor(pos, 0);
+      lcd.print('1');
+      cont = 0;
+    }
+    if (customKey == '2') 
+    {
+      cont1++;
+      multitap(cont1);
+      lcd.setCursor(pos, 0);
+      lcd.print(caracter);
+      if (cont1 == 3)
+      {
+        cont1 = 0;
+      }
+      cont = 0;
+    }
+    if (customKey == '3') 
+    {
+      cont2++;
+      multitap(cont2);
+      lcd.setCursor(pos, 0);
+      lcd.print(caracter);
+      if (cont2 == 6)
+      {
+        cont2 = 3;
+      }
+      cont = 0;
+    }
+
+    if (customKey == '4')
+    {
+
+      cont3++;
+      multitap(cont3);
+      lcd.setCursor(pos, 0);
+      lcd.print(caracter);
+      if (cont3 == 9) 
+      {
+        cont3 = 6;
+      }
+      cont = 0;
+
+    }
+
+    if (customKey == '5') 
+    {
+
+      cont4++;
+      multitap(cont4);
+      lcd.setCursor(pos, 0);
+      lcd.print(caracter);
+      if (cont4 == 12)
+      {
+        cont4 = 9;
+      }
+      cont = 0;
+    }
+
+    if (customKey == '6')
+    {
+
+      cont5++;
+      multitap(cont5);
+      lcd.setCursor(pos, 0);
+      lcd.print(caracter);
+      if (cont5 == 15)
+      {
+        cont5 = 12;
+      }
+      cont = 0;
+    }
+
+    if (customKey == '7') 
+    {
+      cont6++;
+      multitap(cont6);
+      lcd.setCursor(pos, 0);
+      lcd.print(caracter);
+      if (cont6 == 19) 
+      {
+        cont6 = 15;
+      }
+      cont = 0;
+    }
+
+    if (customKey == '8') 
+    {
+      cont7++;
+      multitap(cont7);
+      lcd.setCursor(pos, 0);
+      lcd.print(caracter);
+      if (cont7 == 22) 
+      {
+        cont7 = 19;
+      }
+      cont = 0;
+    }
+
+    if (customKey == '9') 
+    {
+      cont8++;
+      multitap(cont8);
+      lcd.setCursor(pos, 0);
+      lcd.print(caracter);
+      if (cont8 == 26)
+      {
+        cont8 = 22;
+      }
+      cont = 0;
+    }
+
+    if (customKey == '0')
+    {
+      lcd.setCursor(pos, 0);
+      lcd.print(' ');
+      cont = 0;
+    }
+  }
+}
+char multitap(int dato)
+{
+  switch (dato)
+  {
+    case 1:
+   
+     caracter = 'a';
+      break;
+    case 2:
+     caracter = 'b';
+      break;
+    case 3:
+      caracter = 'c';
+      break;
+    case 4:
+      caracter = 'd';
+      break;
+    case 5:
+      caracter = 'e';
+      break;
+    case 6:
+      caracter = 'f';
+      break;
+    case 7:
+      caracter = 'g';
+      break;
+    case 8:
+      caracter = 'h';
+      break;
+    case 9:
+      caracter = 'i';
+      break;
+    case 10:
+      caracter = 'j';
+      break;
+    case 11:
+      caracter = 'k';
+      break;
+    case 12:
+      caracter = 'l';
+      break;
+    case 13:
+      caracter = 'm';
+      break;
+    case 14:
+     caracter = 'n';
+      break;
+    case 15:
+      caracter = 'o';
+      break;
+    case 16:
+     caracter = 'p';
+      break;
+    case 17:
+     caracter = 'q';
+      break;
+    case 18:
+     caracter = 'r';
+      break;
+    case 19:
+     caracter = 's';
+      break;
+    case 20:
+     caracter = 't';
+      break;
+    case 21:
+      caracter = 'u';
+      break;
+    case 22:
+      caracter = 'v';
+      break;
+    case 23:
+      caracter = 'w';
+      break;
+    case 24:
+      caracter = 'x';
+      break;
+    case 25:
+     caracter = 'y';
+      break;
+    case 26:
+      caracter = 'z';
+      break;
+  }
+  return caracter;
+}
+void espera() {
+  cont++;
+  if (cont == 6) {
+    Serial.print(caracter);
+    cont1 = 0;
+    cont2 = 3;
+    cont3 = 6;
+    cont4 = 9;
+    cont5 = 12;
+    cont6 = 15;
+    cont7 = 19;
+    cont8 = 22;
+  }
+}

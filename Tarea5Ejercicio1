@@ -1,0 +1,101 @@
+#include <LiquidCrystal.h>
+LiquidCrystal lcd (8,9,10,11,12,13);
+int on=0;
+int juego=0;
+volatile int estado=LOW;
+volatile int state=LOW;
+
+int i= 0;
+int j=0;
+String dato;
+int tamano;
+int x= 0;
+int y=0;
+String dat;
+int tam;
+
+void setup() { 
+lcd.begin(16,2);
+Serial.begin(9600);
+attachINT1rrupt (0, INT, LOW);
+attachINT1rrupt (1, INT1,LOW);
+
+}
+
+void loop() 
+{
+  if (on==0)
+  {
+    lcd.display();
+   lcd.print("INGRESE PALABRA:");
+   delay(1000);
+   lcd.clear();
+   delay(1000);
+   if (juego==0)
+   {
+    if (Serial.available()>0);
+ {
+  dato=Serial.readString();
+  tamano=dato.length(); 
+  char vector [tamano+1];  
+  dato.toCharArray(vector, tamano+1);  //string a vector
+ for (;i<tamano;i++)
+ {
+  j=1-j;
+  lcd.setCursor(i,j);
+  lcd.print(vector[i]);
+  delay(100);
+ }
+ j=0;
+ for (;i>0;i--)
+ {
+  j=1-j;
+  lcd.setCursor(i,j);
+  lcd.print(' ');
+  delay(100);
+ }
+i=0;
+lcd.clear();
+ }
+   }
+   else
+   {
+     if (Serial.available()>0);
+ {
+  dat=Serial.readString();
+  tam=dat.length(); 
+  char vec [tam+1];  
+  dat.toCharArray(vec, tam+1);  //string a vector
+ for (;x<tam;x++)
+ {
+  
+  //lcd.setCursor(x);
+  lcd.print(vec);
+  delay(100);
+  lcd.clear();
+ }
+ 
+ }
+   }
+     
+   
+}
+  else
+  {
+    lcd.print("    APAGADO    ");
+    delay(2000);
+    lcd.noDisplay();
+    delay(500);
+  }
+
+}
+
+void INT ()
+{
+  on=1-on;
+}
+
+void INT1 ()
+{
+  juego=1-juego;
+}
